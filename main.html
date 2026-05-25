@@ -30,21 +30,13 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(-25%); }
-            100% { transform: translateX(0); }
-        }
         .animate-float {
             animation: float 4s ease-in-out infinite;
         }
         .animate-pulse-slow {
             animation: pulse-slow 3s ease-in-out infinite;
         }
-        .wave-bg {
-            animation: wave 12s linear infinite;
-        }
-        /* Custom scrollbar */
+        /* Barra de scroll personalizada */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -57,7 +49,7 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen pb-12 flex flex-col items-center">
+<body class="relative min-h-screen pb-16 flex flex-col items-center">
 
     <!-- Canvas de partículas interactivo en fondo -->
     <canvas id="ecoCanvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
@@ -89,11 +81,11 @@
         </div>
     </div>
 
-    <!-- Contenedor Principal de Propuestas Interactiva -->
+    <!-- Contenedor Principal de Propuestas Interactivas -->
     <main class="w-full max-w-md px-4 flex flex-col gap-5 relative z-10">
         
         <!-- Tarjeta 1: Kiosko Solidario -->
-        <div onclick="triggerCardInteraction(this, '🛒', '¡Excelente elección! Papel gratis para todos.')" 
+        <div onclick="triggerCardInteraction(this, 'propuesta_1', '🛒', '¡Excelente elección! Papel gratis para todos.')" 
              class="bg-white rounded-3xl p-5 shadow-xl border-b-8 border-emerald-600 transition-all active:scale-95 cursor-pointer relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-100 rounded-bl-full -z-10 transition-all group-hover:scale-125"></div>
             <div class="flex items-center justify-between mb-2">
@@ -109,13 +101,13 @@
                     <i class="fa-solid fa-heart animate-pulse"></i> ¡Me encanta!
                 </button>
                 <span class="likes-count text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
-                    + <span class="counter">48</span> votos virtuales
+                    + <span class="counter" id="counter_propuesta_1">0</span> votos
                 </span>
             </div>
         </div>
 
         <!-- Tarjeta 2: Espacio Fumadores -->
-        <div onclick="triggerCardInteraction(this, '🚬', '¡Por un campus ordenado y respetuoso!')" 
+        <div onclick="triggerCardInteraction(this, 'propuesta_2', '🚬', '¡Por un campus ordenado y respetuoso!')" 
              class="bg-white rounded-3xl p-5 shadow-xl border-b-8 border-amber-500 transition-all active:scale-95 cursor-pointer relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-amber-50 rounded-bl-full -z-10 transition-all group-hover:scale-125"></div>
             <div class="flex items-center justify-between mb-2">
@@ -131,13 +123,13 @@
                     <i class="fa-solid fa-thumbs-up animate-pulse"></i> ¡Apoyo la idea!
                 </button>
                 <span class="likes-count text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-md">
-                    + <span class="counter">35</span> votos virtuales
+                    + <span class="counter" id="counter_propuesta_2">0</span> votos
                 </span>
             </div>
         </div>
 
         <!-- Tarjeta 3: Kits de Emergencia -->
-        <div onclick="triggerCardInteraction(this, '🧼', '¡Solidaridad femenina en acción!')" 
+        <div onclick="triggerCardInteraction(this, 'propuesta_3', '🧼', '¡Solidaridad femenina en acción!')" 
              class="bg-white rounded-3xl p-5 shadow-xl border-b-8 border-rose-500 transition-all active:scale-95 cursor-pointer relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-bl-full -z-10 transition-all group-hover:scale-125"></div>
             <div class="flex items-center justify-between mb-2">
@@ -153,13 +145,13 @@
                     <i class="fa-solid fa-circle-check animate-pulse"></i> ¡Indispensable!
                 </button>
                 <span class="likes-count text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-md">
-                    + <span class="counter">62</span> votos virtuales
+                    + <span class="counter" id="counter_propuesta_3">0</span> votos
                 </span>
             </div>
         </div>
 
         <!-- Tarjeta 4: Hidratación Segura -->
-        <div onclick="triggerCardInteraction(this, '💧', '¡Saludable, vital y ecológico!')" 
+        <div onclick="triggerCardInteraction(this, 'propuesta_4', '💧', '¡Saludable, vital y ecológico!')" 
              class="bg-white rounded-3xl p-5 shadow-xl border-b-8 border-sky-500 transition-all active:scale-95 cursor-pointer relative overflow-hidden group">
             <div class="absolute top-0 right-0 w-24 h-24 bg-sky-50 rounded-bl-full -z-10 transition-all group-hover:scale-125"></div>
             <div class="flex items-center justify-between mb-2">
@@ -175,7 +167,7 @@
                     <i class="fa-solid fa-tint animate-pulse"></i> ¡Excelente propuesta!
                 </button>
                 <span class="likes-count text-xs font-bold text-sky-600 bg-sky-50 px-2 py-1 rounded-md">
-                    + <span class="counter">57</span> votos virtuales
+                    + <span class="counter" id="counter_propuesta_4">0</span> votos
                 </span>
             </div>
         </div>
@@ -199,7 +191,7 @@
                 
                 <div class="w-full bg-emerald-900/60 p-3 rounded-xl border border-emerald-700/80 text-center">
                     <p class="text-xs text-emerald-200">Total de intenciones de voto acumuladas en el campus:</p>
-                    <p class="text-2xl font-black text-amber-300 mt-1" id="globalVotes">1,248</p>
+                    <p class="text-2xl font-black text-amber-300 mt-1" id="globalVotes">0</p>
                 </div>
             </div>
         </div>
@@ -211,27 +203,205 @@
             <h3 class="fun-font font-bold text-lg mb-1">💡 ¿Quieres saber más?</h3>
             <p class="text-xs text-emerald-800 mb-3">La campaña informativa oficial se realizará el día Lunes 25 y el Miércoles 27 de mayo.</p>
             
-            <!-- Link de Instagram llamativo -->
+            <!-- Link de Instagram -->
             <a href="https://instagram.com/ucsc.listaeco" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-emerald-300 text-emerald-800 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95">
                 <i class="fa-brands fa-instagram text-rose-500 text-xl"></i> @ucsc.listaeco
             </a>
         </div>
+        
+        <!-- Estado de la Sincronización en la Nube -->
+        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-900/10 border border-emerald-500/20 rounded-full text-xs text-emerald-900 font-semibold cursor-pointer" onclick="toggleConfigModal(true)">
+            <span id="statusDot" class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span id="statusText">Verificando base de datos...</span>
+            <i class="fa-solid fa-circle-question text-emerald-700 ml-1"></i>
+        </div>
     </footer>
 
-    <!-- Banner Flotante / Toast para mensajes dinámicos -->
+    
+
+    <!-- Banner Flotante / Toast -->
     <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-emerald-950 text-white text-xs font-bold px-4 py-3 rounded-full shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2 border border-emerald-400 max-w-xs text-center justify-center">
         <span id="toastIcon">🌱</span>
         <span id="toastText">¡Bienvenido a la revolución Eco!</span>
     </div>
 
-    <!-- Script de lógica, canvas y animaciones de confeti/hojas -->
+    <!-- Scripts de Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================================
+        // CONFIGURACIÓN DE TU BASE DE DATOS PARA GITHUB PAGES
+        // Reemplaza los datos dentro de este objeto cuando crees tu proyecto Firebase
+        // =========================================================================
+        const configuracionFirebaseParaGithub = {
+            apiKey: "TU_API_KEY_AQUI",
+            authDomain: "TU_PROYECTO.firebaseapp.com",
+            projectId: "TU_PROYECTO_ID",
+            storageBucket: "TU_PROYECTO.appspot.com",
+            messagingSenderId: "TU_SENDER_ID",
+            appId: "TU_APP_ID"
+        };
+
+        // Identificadores globales suministrados por el entorno o fallback local
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'lista-eco-campana';
+        let firebaseConfig;
+
+        // Determinar qué configuración usar (Prioriza variables locales si están presentes)
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            firebaseConfig = JSON.parse(__firebase_config);
+        } else {
+            firebaseConfig = configuracionFirebaseParaGithub;
+        }
+
+        let db = null;
+        let auth = null;
+        let votesDocRef = null;
+        let isCloudMode = false;
+
+        // Estructura de respaldo local en caso de que no haya conexión a base de datos de producción
+        let localVotes = {
+            propuesta_1: 0,
+            propuesta_2: 0,
+            propuesta_3: 0,
+            propuesta_4: 0,
+            global_votes: 0
+        };
+
+        // Inicializar Firebase
+        try {
+            // Verificar que no use las credenciales placeholder para inicializar en modo local de forma segura
+            if (firebaseConfig && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("TU_API_KEY")) {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                votesDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'votes', 'totals');
+                isCloudMode = true;
+            } else {
+                console.warn("Firebase no configurado. Iniciando en Modo Local Inteligente.");
+                setupLocalMode();
+            }
+        } catch (e) {
+            console.error("Fallo al inicializar Firebase. Activando Modo Local.", e);
+            setupLocalMode();
+        }
+
+        // Si Firebase está activo, autenticar de forma segura antes de realizar peticiones (Regla 3)
+        if (isCloudMode) {
+            const initAuth = async () => {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Error de autenticación, cayendo en Modo Local:", error);
+                    setupLocalMode();
+                }
+            };
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    setSyncStatus(true);
+                    initializeRealtimeSync();
+                } else {
+                    setupLocalMode();
+                }
+            });
+
+            initAuth();
+        }
+
+        // Sincronización en Tiempo Real
+        function initializeRealtimeSync() {
+            if (!auth.currentUser) return;
+            
+            // Suscribirse a los cambios en el documento global de votos (Regla 1 y 2)
+            onSnapshot(votesDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    updateUI(data);
+                } else {
+                    // Si el documento de la lista no existe aún, se inicializa en 0
+                    setDoc(votesDocRef, {
+                        propuesta_1: 0,
+                        propuesta_2: 0,
+                        propuesta_3: 0,
+                        propuesta_4: 0,
+                        global_votes: 0
+                    }).catch(err => console.error("Error al inicializar documento:", err));
+                }
+            }, (error) => {
+                console.error("Error al escuchar cambios en Firebase:", error);
+                setupLocalMode();
+            });
+        }
+
+        // Manejador del Modo Local (en caso de que se suba a GitHub sin modificar las llaves de Firebase)
+        function setupLocalMode() {
+            isCloudMode = false;
+            setSyncStatus(false);
+            
+            // Cargar datos previos de localStorage de forma segura
+            const saved = localStorage.getItem('lista_eco_local_votes');
+            if (saved) {
+                try {
+                    localVotes = JSON.parse(saved);
+                } catch(e) {}
+            }
+            updateUI(localVotes);
+        }
+
+        // Actualizar la interfaz con los valores numéricos
+        function updateUI(data) {
+            document.getElementById('counter_propuesta_1').innerText = data.propuesta_1 || 0;
+            document.getElementById('counter_propuesta_2').innerText = data.propuesta_2 || 0;
+            document.getElementById('counter_propuesta_3').innerText = data.propuesta_3 || 0;
+            document.getElementById('counter_propuesta_4').innerText = data.propuesta_4 || 0;
+            document.getElementById('globalVotes').innerText = (data.global_votes || 0).toLocaleString();
+        }
+
+        // Actualizar el estado visual de conexión en el footer
+        function setSyncStatus(active) {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            if (active) {
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
+                statusText.innerText = "Nube Conectada (Multiusuario)";
+            } else {
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500";
+                statusText.innerText = "Modo Local (Configurar Nube)";
+            }
+        }
+
+        // Registrar incremento en la base de datos o localmente
+        window.registerVoteIncrement = async function(propName) {
+            if (isCloudMode && auth.currentUser) {
+                try {
+                    await updateDoc(votesDocRef, {
+                        [propName]: increment(1)
+                    });
+                } catch (e) {
+                    console.error("Error al guardar voto en la nube:", e);
+                }
+            } else {
+                // Registrar incremento local en GitHub sin configurar
+                localVotes[propName] = (localVotes[propName] || 0) + 1;
+                localStorage.setItem('lista_eco_local_votes', JSON.stringify(localVotes));
+                updateUI(localVotes);
+            }
+        }
+    </script>
+
+    <!-- Script de interfaz, canvas, confeti e interactividad -->
     <script>
         // Inicialización de Canvas para partículas de hojas y confeti
         const canvas = document.getElementById('ecoCanvas');
         const ctx = canvas.getContext('2d');
 
         let particles = [];
-        let animationFrameId;
 
         // Ajustar Canvas al tamaño de la pantalla
         function resizeCanvas() {
@@ -241,7 +411,7 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Tipos de partículas
+        // Estructura de partícula (Hojas y Confeti)
         class Particle {
             constructor(x, y, isConfetti = false) {
                 this.x = x;
@@ -250,14 +420,12 @@
                 this.isConfetti = isConfetti;
                 
                 if (isConfetti) {
-                    // Colores vibrantes de confeti
                     const colors = ['#f43f5e', '#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#a855f7'];
                     this.color = colors[Math.floor(Math.random() * colors.length)];
                     this.speedX = Math.random() * 8 - 4;
-                    this.speedY = Math.random() * -10 - 5; // Salto hacia arriba
+                    this.speedY = Math.random() * -10 - 5;
                     this.gravity = 0.3;
                 } else {
-                    // Hojas naturales en caída suave
                     const leafGreens = ['#4ade80', '#22c55e', '#16a34a', '#86efac', '#fef08a'];
                     this.color = leafGreens[Math.floor(Math.random() * leafGreens.length)];
                     this.speedX = Math.random() * 2 - 1;
@@ -277,11 +445,10 @@
                     this.y += this.speedY;
                     this.opacity -= 0.015;
                 } else {
-                    this.x += this.speedX + Math.sin(this.y / 30) * 0.5; // Movimiento ondulante
+                    this.x += this.speedX + Math.sin(this.y / 30) * 0.5;
                     this.y += this.speedY;
                     this.rotation += this.rotationSpeed;
                     
-                    // Si la hoja llega abajo, vuelve a empezar arriba
                     if (this.y > canvas.height) {
                         this.y = -20;
                         this.x = Math.random() * canvas.width;
@@ -297,7 +464,6 @@
                 ctx.fillStyle = this.color;
 
                 if (this.isConfetti) {
-                    // Confeti rectangular o circular
                     if (Math.random() > 0.5) {
                         ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
                     } else {
@@ -306,7 +472,6 @@
                         ctx.fill();
                     }
                 } else {
-                    // Dibujar una hoja simple estilizada con curvas Bezier
                     ctx.beginPath();
                     ctx.moveTo(0, -this.size / 2);
                     ctx.bezierCurveTo(this.size / 2, -this.size / 4, this.size / 2, this.size / 4, 0, this.size / 2);
@@ -314,7 +479,6 @@
                     ctx.closePath();
                     ctx.fill();
                     
-                    // Nervadura central de la hoja
                     ctx.strokeStyle = 'rgba(255,255,255,0.3)';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
@@ -327,8 +491,8 @@
             }
         }
 
-        // Crear hojas de fondo constantes
-        const totalLeaves = 25;
+        // Crear hojas de fondo fijas
+        const totalLeaves = 20;
         for (let i = 0; i < totalLeaves; i++) {
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
@@ -336,33 +500,31 @@
         // Bucle de animación del Canvas
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             for (let i = particles.length - 1; i >= 0; i--) {
                 const p = particles[i];
                 p.update();
                 p.draw();
                 
-                // Eliminar confeti desvanecido
                 if (p.isConfetti && p.opacity <= 0) {
                     particles.splice(i, 1);
                 }
             }
-            
             requestAnimationFrame(animate);
         }
+
         window.onload = function() {
             animate();
         };
 
-        // Generar una ráfaga de confeti desde una posición específica (X, Y)
+        // Generar explosión de confeti
         function burstConfetti(x, y) {
-            const count = 45;
+            const count = 40;
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle(x, y, true));
             }
         }
 
-        // Notificaciones Flotantes (Toast)
+        // Toast de aviso
         function showToast(icon, message) {
             const toast = document.getElementById('toast');
             const toastIcon = document.getElementById('toastIcon');
@@ -372,64 +534,67 @@
             toastText.innerText = message;
             
             toast.style.opacity = '1';
-            
             setTimeout(() => {
                 toast.style.opacity = '0';
             }, 2500);
         }
 
-        // Interacción táctil en las tarjetas de propuestas
-        function triggerCardInteraction(element, emoji, customMessage) {
-            // Incrementar contador local de la tarjeta de forma visual
-            const counterSpan = element.querySelector('.counter');
-            let currentCount = parseInt(counterSpan.innerText);
-            counterSpan.innerText = currentCount + 1;
-
-            // Obtener coordenadas de la tarjeta para lanzar la animación en ese punto
+        // Interacción táctil en las propuestas
+        function triggerCardInteraction(element, propId, emoji, customMessage) {
             const rect = element.getBoundingClientRect();
             const posX = rect.left + rect.width / 2;
             const posY = rect.top + rect.height / 2;
 
-            // Disparar confeti en el área pulsada
             burstConfetti(posX, posY);
 
-            // Efecto visual de escala al pulsar
             element.classList.add('scale-95');
             setTimeout(() => {
                 element.classList.remove('scale-95');
             }, 150);
 
-            // Mostrar mensaje personalizado motivacional
+            // Sincronizar el voto
+            if (window.registerVoteIncrement) {
+                window.registerVoteIncrement(propId);
+            }
+
             showToast(emoji, customMessage);
         }
 
-        // Acción global de voto por la Lista Eco
+        // Acción del gran botón de compromiso de voto
         function commitVote() {
-            // Incrementar totalizador general
-            const votesDisplay = document.getElementById('globalVotes');
-            let total = parseInt(votesDisplay.innerText.replace(',', ''));
-            total += 1;
-            votesDisplay.innerText = total.toLocaleString();
-
-            // Explosión masiva en la parte media de la pantalla
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
-            burstConfetti(centerX, centerY);
             
+            burstConfetti(centerX, centerY);
             setTimeout(() => {
-                burstConfetti(centerX - 100, centerY - 50);
-                burstConfetti(centerX + 100, centerY - 50);
+                burstConfetti(centerX - 80, centerY - 40);
+                burstConfetti(centerX + 80, centerY - 40);
             }, 150);
 
-            showToast('🗳️💚', '¡Gracias por apoyar el cambio! ¡Vota Lista Eco!');
+            if (window.registerVoteIncrement) {
+                window.registerVoteIncrement('global_votes');
+            }
+
+            showToast('🗳️🌿', '¡Tu voto se ha sumado a la revolución Eco!');
         }
 
-        // Capturar interacciones de toques en la pantalla de manera general para añadir dinamismo
+        // Control del Modal Instructivo
+        function toggleConfigModal(show) {
+            const modal = document.getElementById('configModal');
+            if (show) {
+                modal.classList.remove('pointer-events-none');
+                modal.classList.add('opacity-100');
+            } else {
+                modal.classList.add('pointer-events-none');
+                modal.classList.remove('opacity-100');
+            }
+        }
+
+        // Añadir hojas extras interactivas al tocar la pantalla
         document.addEventListener('touchstart', function(e) {
             if (e.touches.length > 0) {
                 const touch = e.touches[0];
-                // Probabilidad de generar una hoja donde el usuario toca
-                if (particles.length < 120) {
+                if (particles.length < 100) {
                     particles.push(new Particle(touch.clientX, touch.clientY));
                 }
             }
